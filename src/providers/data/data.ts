@@ -12,7 +12,27 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataProvider {
 
+
+db: any;
+remote: string = 'http://74.208.165.188:5984/players';
+
+
   constructor(public http: Http) {
+
+
+this.db = new PouchDB('players');
+ 
+        let options = {
+          live: true,
+          retry: true
+        };
+ 
+       this.db.sync(this.remote, options);
+
+
+
+
+
     console.log('Hello DataProvider Provider');
   }
 
