@@ -1,14 +1,86 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Player Database</ion-title>
+
   </ion-navbar>
+
+
+ <form [formGroup]="searchForm">
+
+
+ <ion-item  *ngIf="searchLast">
+            <ion-label floating>Search by Last Name</ion-label>
+            <ion-input formControlName="lastName" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item  *ngIf="!searchLast">
+            <ion-label floating>Search by First Name</ion-label>
+            <ion-input formControlName="lastName" type="text"></ion-input>
+        </ion-item>
+
+   </form>
+
+
+
+   <button *ngIf="searchLast" ion-button full color="primary" (click)="search()">Search</button>
+
+    <button *ngIf="!searchLast" ion-button full color="primary" (click)="search()">Search</button>
+
+
 </ion-header>
 
+
+
+
+
+
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+
+
+
+
+ <ion-list  *ngIf="searchLast">
+
+ 	<ion-item-sliding  *ngFor="let player of playerRecord">
+
+        <ion-item>
+            {{player.lastName}} , {{player.firstName}}&nbsp; &nbsp; : &nbsp;{{player.rating}} 
+
+           
+        </ion-item>
+
+       
+<ion-item-options>
+
+ <button ion-button (click)="playerDetails(player)">Details</button>
+      <button ion-button color="danger" (click)="share(item)">Edit</button>
+    </ion-item-options>
+     
+    
+
+
+    </ion-item-sliding>
+
+ </ion-list>
+
+
+     <ion-list  *ngIf="!searchLast">
+        <ion-item  *ngFor="let player of playerRecord">
+            {{player.firstName}} &nbsp; {{player.lastName}}  &nbsp; &nbsp; : &nbsp;{{player.rating}} 
+        </ion-item>
+    </ion-list>
+
+
 </ion-content>
+
+<ion-footer>
+  
+  	<div id="footerDiv">
+    <button ion-button color="primary" (click)="setSearchLast()">Search by Last</button>
+    <button ion-button color="primary" (click)="setSearchFirst()">Search by First</button>
+    </div>
+  </ion-footer>

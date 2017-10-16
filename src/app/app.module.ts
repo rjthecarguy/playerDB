@@ -8,6 +8,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { DataProvider } from '../providers/data/data';
 import { PlayerProvider } from '../providers/player/player';
+import { Http } from '@angular/http';
+import { HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import { PlayerProvider } from '../providers/player/player';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
