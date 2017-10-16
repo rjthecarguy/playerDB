@@ -22,9 +22,11 @@ export class PlayerProvider {
 	
  playerSubject: any = new Subject();   
  key:any;
- searchString: any;
+ searchString: string;
+ searchField: string = "lastName";
  queryMap:any = "players/byLastName"; 
  noRun: any = true; 
+
 
 
 
@@ -63,11 +65,23 @@ getPlayers() {
 }
 
 
+compare(a,b) {
+  if (a.lastName < b.lastName)
+    return -1;
+  if (a.lastName > b.lastName)
+    return 1;
+  return 0;
+}
+
+
+
 
 emitPlayers(): void {
  
         this.zone.run(() => {
 
+
+          
      
            this.dataService.db.createIndex({
                 index: {fields: ['lastName']}
@@ -75,15 +89,19 @@ emitPlayers(): void {
 
                  this.dataService.db.find({
                           selector: {
-                                    "$or":[
-                                     {lastName: {$regex:'^Rob'}},
-                                     {lastName: {$regex:'^F'}}
-                                                             ]
+                                   
+                                     lastName : {$regex:'^' + this.searchString}
+                                   }
+                                    
+                                                             
                                     }
-                                          }).then((data) => {
+                                          ).then((data) => {
 
                                              let Players = data.docs;
-                                                         
+                                                 
+                                             Players.sort(this.compare);   
+                                               
+
 
           console.log(Players);
 
